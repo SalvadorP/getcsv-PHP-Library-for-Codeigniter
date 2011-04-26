@@ -6,6 +6,7 @@ Currently the way I have built it is you have to send an array to the library te
 
 Example of a function used inside a controller in Codeigniter 2 used for reading the CSV files and simply printing the result:
 
+<?php
 
 function sample_read_csv()
 {
@@ -16,3 +17,5 @@ function sample_read_csv()
 	$csv_array = $this->getcsv->get_csv_assoc_array("path/to/file.csv", $data);
 	print_r($csv_array);
 }
+
+?>
