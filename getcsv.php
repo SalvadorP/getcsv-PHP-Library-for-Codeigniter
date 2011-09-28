@@ -36,7 +36,7 @@ class Getcsv {
 					foreach ($questions as $key => $value)
 					{
 						$new_row = $row -1;
-						$final_array[$new_row][$value] = $data[$q_location[$value]];
+						$final_array[$new_row][$value] = trim($data[$q_location[$value]]);
 					}
 				}
 
