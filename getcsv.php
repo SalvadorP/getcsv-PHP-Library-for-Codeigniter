@@ -4,28 +4,50 @@
  *
  * An open source library built for Codeigniter to read CSV files into associated arrays
  *
- * @author		Jason Michels
- * @link		http://thebizztech.com
+ * @author      Jason Michels
+ * @link        http://thebizztech.com
  */
 
-
 class Getcsv {
-	
-	private $file_path = "";
+    
+    private $file_path = "";
     private $handle = "";
 
-	public function set_file_path($file_path)
+    /**
+     * set_file_path
+     * 
+     * @param mixed $file_path Description.
+     *
+     * @access public
+     *
+     * @return mixed Value.
+     */
+    public function set_file_path($file_path)
     {
         $this->file_path = $file_path;
         return $this;
     }
 
+    /**
+     * get_handle
+     * 
+     * @access private
+     *
+     * @return mixed Value.
+     */
     private function get_handle()
     {
         $this->handle = fopen($this->file_path, "r");
         return $this;
     }
 
+    /**
+     * close_csv
+     * 
+     * @access private
+     *
+     * @return mixed Value.
+     */
     private function close_csv()
     {
         fclose($this->handle);
@@ -33,7 +55,20 @@ class Getcsv {
     }
 
     //this is the most current function to use
-    public function get_array()
+    
+
+    /**
+     * This function gets the CSV and passes it to an associative array
+     * If the $fields parameter is not empty, it gets the names of the csv fields from it
+     * In case $fields is empty the names of the csv will be the ones in the first line of the CSV
+     * 
+     * @param string $fields name of the csv fields
+     *
+     * @access public
+     *
+     * @return mixed Value.
+     */
+    public function get_array($fields = '')
     {
         $this->get_handle();
 
@@ -42,9 +77,16 @@ class Getcsv {
         {
             if($row == 0)
             {
-                foreach ($data as $key => $value)
+                if(!empty($fields)){
+                    foreach($fields as $key => $value)
+                        $title[$key] = trim($value); //this extracts the titles from the first row and builds array
+                }
+                else
                 {
-                    $title[$key] = trim($value); //this extracts the titles from the first row and builds array
+                    foreach ($data as $key => $value)
+                    {
+                        $title[$key] = trim($value); //this extracts the titles from the first row and builds array
+                    }
                 }
             }
             else
@@ -66,6 +108,14 @@ class Getcsv {
 // --------------------------------Main Functions Above----------------------------------------------------- //
 
     //This function is being left in incase I ever need it
+
+    /**
+     * get_csv_array
+     * 
+     * @access public
+     *
+     * @return mixed Value.
+     */
     function get_csv_array()
     {
         $row = 0;
@@ -80,8 +130,18 @@ class Getcsv {
         }
         return $final_array;
     }
-	
+    
     //Probably not going to use this much but would be helpful if there are not as many title columns as total columns and I wanted to pull out just specific titles
+
+    /**
+     * get_csv_assoc_array
+     * 
+     * @param mixed $questions Description.
+     *
+     * @access public
+     *
+     * @return mixed Value.
+     */
     function get_csv_assoc_array($questions)
     {
         $row = 0;
