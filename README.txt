@@ -18,7 +18,8 @@ function sample_read_csv()
 {
 	$this->load->library('getcsv');
 	
-	//NOTE if we use $fields the csv and the fields array MUST have the same number of columns, otherwise we'll get an empty array
+	//NOTE if we use $fields the csv and the fields array MUST have the same number of columns, 
+	//otherwise we'll get an empty array
 	$fields = array('field1', 'field2'); 
 
 	$data = $this->getcsv->set_file_path('path/to/file.csv')->get_array($fields);
