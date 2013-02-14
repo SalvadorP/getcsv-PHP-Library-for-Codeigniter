@@ -9,6 +9,7 @@ Note: You can still use it the other way where you pass in an array of questions
 Changelog:
 1. Abstracted out some of the PHP code that reads the file so it can more easily be used for multiple types of functions.
 2. Added "get_array()" function
+3. (February 2013) Now you can pass an array with the names of the csv fields. The array and the csv must have the same number of columns/elements.
 
 Example of a function used inside a controller in Codeigniter 2 used for reading the CSV files and simply printing the result:
 
@@ -16,7 +17,10 @@ Example of a function used inside a controller in Codeigniter 2 used for reading
 function sample_read_csv()
 {
 	$this->load->library('getcsv');
+	
+	//NOTE if we use $fields the csv and the fields array MUST have the same number of columns, otherwise we'll get an empty array
+	$fields = array('field1', 'field2'); 
 
-	$data = $this->getcsv->set_file_path('path/to/file.csv')->get_array();
+	$data = $this->getcsv->set_file_path('path/to/file.csv')->get_array($fields);
 	print_r($data);
 }
