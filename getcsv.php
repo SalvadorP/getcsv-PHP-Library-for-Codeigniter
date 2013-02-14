@@ -71,15 +71,28 @@ class Getcsv {
     public function get_array($fields = '')
     {
         $this->get_handle();
-
         $row = 0;
         while (($data = fgetcsv($this->handle, 0, ",")) !== FALSE) 
         {
             if($row == 0)
             {
                 if(!empty($fields)){
+                    //If the array of fields has different number of columns than the csv, return an empty array
+                    if(count($data) != count($fields)){
+                        $this->close_csv();
+                        return array();
+                    }
+                    
                     foreach($fields as $key => $value)
-                        $title[$key] = trim($value); //this extracts the titles from the first row and builds array
+                        $title[$key] = trim($value); 
+
+                    //we need to store the first line                    
+                    $row++; //Make the first line 0 not -1
+                    $new_row = $row - 1; //this is needed so that the returned array starts at 0 instead of 1
+                    foreach($title as $key => $value) //this assumes there are as many columns as their are title columns
+                    {
+                        $result[$new_row][$value] = trim($data[$key]);
+                    }
                 }
                 else
                 {
